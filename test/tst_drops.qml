@@ -13,7 +13,10 @@ Item {
     Drops { id:subject }
     
     function test_it() {
+      subject.start()
       console.log(subject)
+      wait(2000)
+      subject.stop()
     }
     
   }

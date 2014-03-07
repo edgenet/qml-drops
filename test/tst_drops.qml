@@ -10,7 +10,7 @@ Item {
     id: test
     name: "Drops"
     
-    Drops { id:subject }
+    Drops { id:subject; path: "/tmp/drops_test" }
     
     function test_it() {
       subject.start()

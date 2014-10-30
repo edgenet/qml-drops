@@ -15,5 +15,6 @@ public:
   void registerTypes(const char *uri)
   {
     qmlRegisterType<Drops> (uri, 1, 0, "Drops");
+    qmlRegisterType<DropsAttached>();
   };
 };

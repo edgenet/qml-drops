@@ -10,14 +10,22 @@ Item {
     id: test
     name: "Drops"
     
-    Drops { id:subject; path: "/tmp/drops_test" }
+    Drops {
+      id:subject
+      path: "/tmp/drops_test"
+    }
+    
+    function test_selfTest() {
+      var verbose = false
+      Drops.selfTest(verbose)
+    }
     
     function test_it() {
       subject.start()
       console.log(subject)
-      wait(2000)
+      wait(1000)
       subject.stop()
+      wait(1000)
     }
-    
   }
 }

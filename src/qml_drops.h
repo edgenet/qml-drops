@@ -7,6 +7,26 @@
 #include <drops.h>
 
 
+class Drops;
+
+class DropsAttached : public QObject
+{
+  Q_OBJECT
+  
+  QObject* m_attached;
+  
+public:
+  
+  DropsAttached(QObject* attached) { m_attached = attached; };
+  
+public slots:
+  
+  void selfTest(bool verbose) {
+    return drops_test(verbose);
+  };
+};
+
+
 class Drops : public QObject
 {
   Q_OBJECT
@@ -54,6 +74,13 @@ public:
   ~Drops() {
     stop();
   };
+  
+  static QObject* qmlAttachedProperties(QObject* object) {
+    return new DropsAttached(object);
+  }
 };
+
+
+QML_DECLARE_TYPEINFO(Drops, QML_HAS_ATTACHED_PROPERTIES)
 
 #endif

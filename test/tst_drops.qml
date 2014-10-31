@@ -21,11 +21,16 @@ Item {
     }
     
     function test_it() {
+      compare(subject.running, false)
+      
       subject.start()
+      compare(subject.running, true)
+      
       console.log(subject)
       wait(1000)
+      
       subject.stop()
-      wait(1000)
+      compare(subject.running, false)
     }
   }
 }

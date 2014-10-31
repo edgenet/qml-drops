@@ -49,10 +49,3 @@ android {
  && $$QMAKE_COPY $$replace($$list($$quote($$VENDORDIR/lib/libzyre.so)  $$DESTDIR), /, $$QMAKE_DIR_SEP) \
  && $$QMAKE_COPY $$replace($$list($$quote($$VENDORDIR/lib/libdrops.so) $$DESTDIR), /, $$QMAKE_DIR_SEP)
 }
-
-# Copy the qml implementation directory
-copyqml.commands = $(COPY_DIR) $$SRCDIR/qml $$DESTDIR
-first.depends = $(first) copyqml
-export(first.depends)
-export(copyqml.commands)
-QMAKE_EXTRA_TARGETS += first copyqml

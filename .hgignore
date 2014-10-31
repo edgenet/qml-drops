@@ -1,5 +1,0 @@
-^Makefile$
-^build/
-\.sublime-\w+$
-^vendor/cache/
-^vendor/prefix/

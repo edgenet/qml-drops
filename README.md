@@ -18,8 +18,9 @@ You will need an installation of [Ruby 1.9 or greater](https://www.ruby-lang.org
 
 On Linux, you can get Ruby from your package manager.  On OSX, use [brew](http://brew.sh/).  If you are already a Ruby developer and have an existing system to manage your Rubies, use what you are comfortable with.
 
-Once Ruby is installed, you will need the [qt-commander](https://github.com/jemc/qt-commander) gem, a utility package for parsing the Qt Creator IDE configuration files to pull out key information for building projects and project dependencies from the command line without the IDE.  You can install it using the `gem` command:
+Once Ruby is installed, you will need the [qt-commander](https://github.com/jemc/qt-commander) gem, a utility package for parsing the Qt Creator IDE configuration files to pull out key information for building projects and project dependencies from the command line without the IDE.  You will also need the [rake](https://github.com/jimweirich/rake) gem, a task automation package with usage similiar to the `make` command.  You can install both using the `gem` command:
 ```
+gem install rake
 gem install qt-commander
 ```
 

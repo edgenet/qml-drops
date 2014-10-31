@@ -31,8 +31,8 @@ class Drops : public QObject
 {
     Q_OBJECT
     
-    Q_PROPERTY(QString path READ path WRITE setPath)
-    Q_PROPERTY(bool running READ running)
+    Q_PROPERTY(QString path READ path WRITE setPath NOTIFY pathChanged)
+    Q_PROPERTY(bool running READ running NOTIFY runningChanged)
     
     QString m_path;
     bool m_running;
@@ -42,11 +42,17 @@ public slots:
     QString path() { return m_path; };
     void setPath(const QString &path) {
         m_path = path;
+        emit pathChanged();
         if(m_running)
             start();
     };
     
     bool running() { return m_running; };
+    
+signals:
+    
+    void pathChanged();
+    void runningChanged();
     
 private:
     
@@ -58,11 +64,13 @@ public slots:
         drops_destroy(&self);
         self = drops_new(m_path.toLatin1().data());
         m_running = !!self;
+        emit runningChanged();
     };
     
     void stop() {
         drops_destroy(&self);
         m_running = false;
+        emit runningChanged();
     }
     
 public:
@@ -70,6 +78,7 @@ public:
     Drops() {
         m_path = QString("/tmp/drops"); // Default path, to be overriden by user
         m_running = false;
+        emit runningChanged();
         
         self = NULL;
     };

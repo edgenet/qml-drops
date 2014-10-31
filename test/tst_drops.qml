@@ -32,5 +32,10 @@ Item {
       subject.stop()
       compare(subject.running, false)
     }
+    
+    function test_notifiable() {
+      verify(subject['pathChanged']['connect'])
+      verify(subject['runningChanged']['connect'])
+    }
   }
 }

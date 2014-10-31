@@ -1,10 +1,10 @@
 # qml-drops
 
-QML bindings for the "drops" library.
+QML bindings for creating UI applications using the "drops" C library.
 
 ## Setting up a Build Environment
 
-The following is intended to be a complete guide to setting up a build environment that can build for android (as well as your desktop, although that part is considerably easier).  To that end, if you encounter parts where steps are missing or unclear, please file an issue or pull request about it so that others might learn from your research.
+The following is intended to be a complete guide to setting up a build environment that can build for Android (as well as your desktop, although that part is considerably easier).  To that end, if you encounter parts where steps are missing or unclear, please file an issue or pull request about it so that others might learn from your research.
 
 Eventually, we'd like to remove some of these steps where possible to make this process simpler.  If you have ideas about removing or simplifying steps, please file an issue or pull request so that others might be saved some complexity.
 
@@ -44,13 +44,13 @@ To create the temporary project:
 * Choose `Applications`/`Qt Quick Application`
 * Enter a name and location for the temporary project
 * Choose the latest "Qt Quick Component Set"
-* Select the relevant kits you want to be able to deploy with (this should include the android kit(s) that you set up earlier)
+* Select the relevant kits you want to be able to deploy with (this should include the Android kit(s) that you set up earlier)
 * Choose a version control system to use (if you like)
 * Finish the creation wizard
 
 Once you have a project to deploy:
 
-* In the lower-left corner of the IDE (above the build icons), select from the drop-down menu the android kit that matches the architectureof your connected device.
+* In the lower-left corner of the IDE (above the build icons), select from the drop-down menu the Android kit that matches the architectureof your connected device.
 * Click the "Run" button (just below the kit menu) to deploy.
 * Watch the bottom output pane of the IDE; it will show output from the build and packaging process, transfer the file, then show in a different tab output from the program execution as it runs on your device.
 

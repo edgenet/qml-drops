@@ -23,12 +23,21 @@ def vendor_build
     ],
     [:czmq,
       retrieve: [:git, "https://github.com/zeromq/czmq.git"],
+      configure: {
+        other: 'LIBTOOL_EXTRA_LDFLAGS="-avoid-version"'
+      }
     ],
     [:zyre,
-      retrieve: [:git, "https://github.com/zeromq/zyre.git", tag:'v1.0.0'],
+      retrieve: [:git, "https://github.com/zeromq/zyre.git"],
+      configure: {
+        other: 'LIBTOOL_EXTRA_LDFLAGS="-avoid-version"'
+      }
     ],
     [:drops,
       retrieve: [:git, "https://github.com/edgenet/drops.git"],
+      configure: {
+        other: 'LIBTOOL_EXTRA_LDFLAGS="-avoid-version"'
+      }
     ],
   ]
   

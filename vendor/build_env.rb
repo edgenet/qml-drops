@@ -36,6 +36,14 @@ def vendor_build_env
   
   
   # Construct load flags from global variables and library-specific option hash
+  define_method :environment do |opts|
+    opts ||= {}
+    env = opts.fetch :env, {}
+    
+    env.each_pair.map { |k,v| "export #{k}='#{v}' && " }.join
+  end
+  
+  # Construct load flags from global variables and library-specific option hash
   define_method :configure_flags do |opts|
     opts ||= {}
     
@@ -53,6 +61,28 @@ def vendor_build_env
       (opts[:CPPFLAGS] ||= "") << " -I#{ndk_root}/sources/cxx-stl/stlport/stlport"
       (opts[:CXXFLAGS] ||= "") << " -I#{ndk_root}/sources/cxx-stl/stlport/stlport"
       (opts[:LIBS]     ||= "") << " -lstlport_static"
+    when :stlport_gnu_48
+      case arch
+      when 'arm'
+        (opts[:LDFLAGS]  ||= "") << " -L#{ndk_root}/sources/cxx-stl/gnu-libstdc++/4.8/libs/armeabi"
+        (opts[:CFLAGS]   ||= "") << " -I#{ndk_root}/sources/cxx-stl/gnu-libstdc++/4.8/libs/armeabi/include"
+        (opts[:CPPFLAGS] ||= "") << " -I#{ndk_root}/sources/cxx-stl/gnu-libstdc++/4.8/libs/armeabi/include"
+        (opts[:CXXFLAGS] ||= "") << " -I#{ndk_root}/sources/cxx-stl/gnu-libstdc++/4.8/libs/armeabi/include"
+      when 'x86'
+        (opts[:LDFLAGS]  ||= "") << " -L#{ndk_root}/sources/cxx-stl/gnu-libstdc++/4.8/libs/x86"
+        (opts[:CFLAGS]   ||= "") << " -I#{ndk_root}/sources/cxx-stl/gnu-libstdc++/4.8/libs/x86/include"
+        (opts[:CPPFLAGS] ||= "") << " -I#{ndk_root}/sources/cxx-stl/gnu-libstdc++/4.8/libs/x86/include"
+        (opts[:CXXFLAGS] ||= "") << " -I#{ndk_root}/sources/cxx-stl/gnu-libstdc++/4.8/libs/x86/include"
+      when 'mips'
+        (opts[:LDFLAGS]  ||= "") << " -L#{ndk_root}/sources/cxx-stl/gnu-libstdc++/4.8/libs/mips"
+        (opts[:CFLAGS]   ||= "") << " -I#{ndk_root}/sources/cxx-stl/gnu-libstdc++/4.8/libs/mips/include"
+        (opts[:CPPFLAGS] ||= "") << " -I#{ndk_root}/sources/cxx-stl/gnu-libstdc++/4.8/libs/mips/include"
+        (opts[:CXXFLAGS] ||= "") << " -I#{ndk_root}/sources/cxx-stl/gnu-libstdc++/4.8/libs/mips/include"
+      end
+      (opts[:CFLAGS]   ||= "") << " -I#{ndk_root}/sources/cxx-stl/gnu-libstdc++/4.8/include"
+      (opts[:CPPFLAGS] ||= "") << " -I#{ndk_root}/sources/cxx-stl/gnu-libstdc++/4.8/include"
+      (opts[:CXXFLAGS] ||= "") << " -I#{ndk_root}/sources/cxx-stl/gnu-libstdc++/4.8/include"
+      (opts[:LIBS]     ||= "") << " -lgnustl_shared"
     end
     
     [
@@ -69,6 +99,7 @@ def vendor_build_env
       "CXXFLAGS='#{_CXXFLAGS} #{opts[:CXXFLAGS]} -I#{prefix_dir}/include'",
       "LDFLAGS='#{_LDFLAGS} #{opts[:LDFLAGS]} -L#{prefix_dir}/lib'",
       "LIBS='#{_LIBS} #{opts[:LIBS]}'",
+      "PKG_CONFIG_PATH='#{prefix_dir}/lib/pkgconfig'",
       
       " --host=#{host}",
       " --prefix=#{prefix_dir}",

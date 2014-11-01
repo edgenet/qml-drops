@@ -13,31 +13,38 @@ def vendor_build
   
   # The set of dependency libs of this project, with relevant URLs and options
   libs = [
+    [:libsodium,
+      retrieve: [:tar, "https://download.libsodium.org/libsodium/releases/LATEST.tar.gz"],
+      configure: {
+        other: '--disable-soname-versions'
+      }
+    ],
     [:libzmq,
       retrieve: [:git, "https://github.com/zeromq/zeromq4-x.git"],
       configure: {
         CPPFLAGS: "-Wno-long-long",
         APP_STL:  :stlport_static,
+        other: '--with-libsodium=yes',
         # other: '--with-pgm',
       },
     ],
     [:czmq,
       retrieve: [:git, "https://github.com/zeromq/czmq.git"],
-      configure: {
-        other: 'LIBTOOL_EXTRA_LDFLAGS="-avoid-version"'
-      }
+      env: {
+        LIBTOOL_EXTRA_LDFLAGS: '-avoid-version'
+      },
     ],
     [:zyre,
       retrieve: [:git, "https://github.com/zeromq/zyre.git"],
-      configure: {
-        other: 'LIBTOOL_EXTRA_LDFLAGS="-avoid-version"'
-      }
+      env: {
+        LIBTOOL_EXTRA_LDFLAGS: '-avoid-version'
+      },
     ],
     [:drops,
       retrieve: [:git, "https://github.com/edgenet/drops.git"],
-      configure: {
-        other: 'LIBTOOL_EXTRA_LDFLAGS="-avoid-version"'
-      }
+      env: {
+        LIBTOOL_EXTRA_LDFLAGS: '-avoid-version'
+      },
     ],
   ]
   
@@ -78,6 +85,7 @@ def vendor_build
     end
     
     exit 1 unless vendor_exec\
+     "#{environment lib_opts}"\
      "export PATH=#{ENV['TOOLCHAIN_PATH']}:$PATH"\
      " && cd #{path}"\
      " && ./configure #{configure_flags(lib_opts[:configure])}"\

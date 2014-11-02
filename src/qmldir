@@ -1,2 +1,2 @@
-module org.edgenet.qml.drops
+module org.edgenet.drops
 plugin dropsplugin

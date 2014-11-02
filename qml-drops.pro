@@ -5,7 +5,7 @@ CONFIG += plugin
 QT += qml quick
 
 TARGET = $$qtLibraryTarget(dropsplugin)
-uri = org.edgenet.qml.drops
+uri = org.edgenet.drops
 
 DESTDIR   = $$[QT_INSTALL_QML]/$$replace(uri, \\., /)
 SRCDIR    = $$PWD/src

@@ -2,7 +2,7 @@
 import QtTest 1.0
 import QtQuick 2.1
 
-import org.edgenet.qml.drops 1.0
+import org.edgenet.drops 1.0
 
 
 Item {

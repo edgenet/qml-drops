@@ -6,7 +6,7 @@
 #include "qml_drops.h"
 
 
-class ZMQPlugin : public QQmlExtensionPlugin
+class DropsPlugin : public QQmlExtensionPlugin
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")

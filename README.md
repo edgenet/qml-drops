@@ -77,3 +77,7 @@ rake android
 ```
 
 Use this command to install a copy of the library locally where Qt can find it later for bundling into an application you are deploying to Android.
+
+## Contributing
+
+The contribution policy is the standard ZeroMQ [C4.1 process](http://rfc.zeromq.org/spec:22). Please read this RFC if you have never contributed to a ZeroMQ project.

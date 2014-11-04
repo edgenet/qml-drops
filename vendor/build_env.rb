@@ -36,7 +36,7 @@ def vendor_build_env
   
   
   # Construct load flags from global variables and library-specific option hash
-  define_method :environment do |opts|
+  Object.send :define_method, :environment do |opts|
     opts ||= {}
     env = opts.fetch :env, {}
     
@@ -44,7 +44,7 @@ def vendor_build_env
   end
   
   # Construct load flags from global variables and library-specific option hash
-  define_method :configure_flags do |opts|
+  Object.send :define_method, :configure_flags do |opts|
     opts ||= {}
     
     case opts[:APP_STL]

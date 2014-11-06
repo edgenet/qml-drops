@@ -28,9 +28,13 @@ gem install qt-commander
 
 You will need [Qt 5](http://www.qt.io/download-open-source/) and a fully-functioning environment for Qt that can build and deploy to Android.
 
-Qt features [a guide for Android](http://qt-project.org/doc/qt-5/android-support.html) that you can refer to for tips on getting started.
+Qt features [a guide for Android](http://qt-project.org/doc/qt-5/android-support.html) but here are a few tips to get you started:
 
-At the end of this step, you should be able to use the Qt Creator IDE to build and deploy an out-of-the-box simple 'Hello World' app for QML.
+* You will need the Android [SDK](https://developer.android.com/sdk/index.html) and [NDK](https://developer.android.com/tools/sdk/ndk/index.html).  Install them to any path you like, but you will eventually need to point the Qt Creator IDE to them.
+* You will need Java 7 - JRE and JDK, and 'ant'.  You can usually get these through your package manager.
+* You don't need the Eclipse IDE or bundle - all work is done from the command line or through the Qt Creator IDE.
+
+At the end of this setup, you should be able to use the Qt Creator IDE to build and deploy an out-of-the-box simple 'Hello World' app for QML.
 
 To ready your device for deployment:
 
@@ -62,21 +66,23 @@ Once you have a project to deploy:
 rake test
 ```
 
-Use this command when developing and testing the library.  A copy of the library is installed locally where Qt can find it for running desktop applications that use the library.
+Use this command when developing and testing the library.  A copy of the qml-drops library is installed locally where Qt can find it for running desktop applications that use the library, and tests are run.
 
-### Build Vendor Dependencies for Android
-```
-rake vendor
-```
-
-Use this command as a precursor to installing locally for Android.
+You will need to have the drops C library built and installed on your machine.
 
 ### Install Locally for Android
 ```
 rake android
 ```
 
-Use this command to install a copy of the library locally where Qt can find it later for bundling into an application you are deploying to Android.
+Use this command to install a copy of the library locally where Qt can find it later for bundling into an application you are deploying to Android.  The build will repeat for each android kit you have configured in the Qt Creator IDE so that the installed library is available for all kits.
+
+In order to build for android, the qml-drops needs access to a qt-android build of the drops library and all its dependencies.  This can be done one of two ways:
+
+1. Clone the drops library and all its dependencies from source into the same folder that contains the qml-drops project folder.  If all project repos are side-by-side in the same "workspace" folder (as is typical for many users' workflows), they can detect eachother automatically and build in a chain when you run `rake android` in the qml-drops folder.
+2. Manually export the `DROPS_ROOT` environment variable as the path to the drops source code root.  Do the same for any other projects that you are prompted for when you run `rake android`.  When all environment variables are resolved, they will build in a chain.
+
+For all of the zeromq libraries in the dependencies, the source code will be copied to a temporary directory for building, but installed to the `$(XXX_ROOT)/builds/qt-android/prefix/$(TOOLCHAIN_NAME)` directory within the original source tree.  If you need to run builds for individual projects, use the `$(XXX_ROOT)/builds/qt-android/prefix/build.sh` command.  The build script will skip itself if it was already installed to `$(XXX_ROOT)/builds/qt-android/prefix/$(TOOLCHAIN_NAME)`, so at times you may need to delete that directory to trigger a clean build.
 
 ## Contributing
 

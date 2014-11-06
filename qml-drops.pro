@@ -12,10 +12,22 @@ SRCDIR    = $$PWD/src
 BUILDDIR  = $$PWD/build/native
 
 android {
-  VENDORDIR = $$PWD/vendor/prefix/$(TOOLCHAIN_NAME)
+  # Use a default value assuming the drops project sits alongside this one
+  isEmpty(DROPS_ROOT) {
+    DROPS_ROOT = $$clean_path($$PWD/../drops)
+  }
+  !exists($$DROPS_ROOT) {
+    error(The DROPS_ROOT directory does not exist: \"$$DROPS_ROOT\")
+  }
+  # Build the drops library for android unless it is already built
+  !system($$DROPS_ROOT/builds/qt-android/build.sh) {
+    error(Failed to build the drops C library with $$DROPS_ROOT/builds/qt-android/build.sh)
+  }
+  
+  VENDOR_PREFIX = $$DROPS_ROOT/builds/qt-android/prefix/$(TOOLCHAIN_NAME)
   BUILDDIR  = $$PWD/build/$(TOOLCHAIN_NAME)
-  QMAKE_LIBDIR += $$VENDORDIR/lib
-  QMAKE_INCDIR += $$VENDORDIR/include
+  QMAKE_LIBDIR += $$VENDOR_PREFIX/lib
+  QMAKE_INCDIR += $$VENDOR_PREFIX/include
 }
 
 LIBS += -ldrops
@@ -41,12 +53,8 @@ INSTALLS    += target qmldir
 QMAKE_POST_LINK += \
   $$QMAKE_COPY $$replace($$list($$quote($$SRCDIR/qmldir) $$DESTDIR), /, $$QMAKE_DIR_SEP)
 
-# Copy the libzmq shared library to the plugin folder (on android only)
+# Copy the dependency shared libraries to the plugin folder (on android only)
 android {
   QMAKE_POST_LINK += \
- && $$QMAKE_COPY $$replace($$list($$quote($$VENDORDIR/lib/libsodium.so) $$DESTDIR), /, $$QMAKE_DIR_SEP) \
- && $$QMAKE_COPY $$replace($$list($$quote($$VENDORDIR/lib/libzmq.so)    $$DESTDIR), /, $$QMAKE_DIR_SEP) \
- && $$QMAKE_COPY $$replace($$list($$quote($$VENDORDIR/lib/libczmq.so)   $$DESTDIR), /, $$QMAKE_DIR_SEP) \
- && $$QMAKE_COPY $$replace($$list($$quote($$VENDORDIR/lib/libzyre.so)   $$DESTDIR), /, $$QMAKE_DIR_SEP) \
- && $$QMAKE_COPY $$replace($$list($$quote($$VENDORDIR/lib/libdrops.so)  $$DESTDIR), /, $$QMAKE_DIR_SEP)
+  && $$QMAKE_COPY $$replace($$list($$quote($$VENDOR_PREFIX/lib/*.so)  $$DESTDIR), /, $$QMAKE_DIR_SEP)
 }

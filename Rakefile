@@ -3,17 +3,6 @@ require 'qt/commander'
 
 task :default => :test
 
-task :vendor do
-  require_relative 'vendor/build.rb'
-  
-  Qt::Commander::Creator.profiles
-  .select(&:android?).map(&:toolchain).uniq.each do |toolchain|
-    toolchain.env do
-      vendor_build
-    end
-  end
-end
-
 task :android do
   Qt::Commander::Creator.profiles.select(&:android?).each do |profile|
     profile.toolchain.env do

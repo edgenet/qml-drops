@@ -76,7 +76,8 @@ public slots:
 public:
     
     Drops() {
-        m_path = QString("/tmp/drops"); // Default path, to be overriden by user
+        // Default path, to be overriden by user
+        m_path = QString(QDir::tempPath() + "/drops");
         m_running = false;
         emit runningChanged();
         
